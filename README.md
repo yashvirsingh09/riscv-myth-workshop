@@ -8,7 +8,7 @@ This repository contains the complete documentation, lab code, testbenches, simu
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 1. [Course Overview](#-course-overview)
 2. [Software to Hardware Transformation Flow](#-software-to-hardware-transformation-flow)
 3. [Repository Directory Structure](#-repository-directory-structure)
@@ -22,7 +22,7 @@ This repository contains the complete documentation, lab code, testbenches, simu
 
 ---
 
-## 🔍 Course Overview
+## Course Overview
 The MYTH workshop provides hands-on implementation of a RISC-V microprocessor core from scratch in 5 days (30 hours):
 - **Day 1:** Explore the RISC-V ISA, GNU compiler toolchain, C-to-Assembly compilation, and Spike simulation.
 - **Day 2:** Understand Application Binary Interface (ABI), system calls, and simulate custom assembly with Picorv32.
@@ -32,7 +32,7 @@ The MYTH workshop provides hands-on implementation of a RISC-V microprocessor co
 
 ---
 
-## 🔄 Software to Hardware Transformation Flow
+## Software to Hardware Transformation Flow
 
 ```mermaid
 flowchart LR
@@ -52,7 +52,7 @@ flowchart LR
 
 ---
 
-## 📂 Repository Directory Structure
+## Repository Directory Structure
 
 ```text
 riscv-myth-workshop/
@@ -101,7 +101,7 @@ riscv-myth-workshop/
 
 ---
 
-## 🚀 Day 1: Introduction to RISC-V ISA and GNU Toolchain
+## Day 1: Introduction to RISC-V ISA and GNU Toolchain
 
 ### Lab 1: Compilation with GCC & Disassembly with Objdump
 Compile a standard C program (`sum1ton.c`) using both native GCC and the `riscv64-unknown-elf-gcc` cross-compiler:
@@ -137,7 +137,7 @@ Inspection of register contents (`a0`, `a1`, `a2`) before and after instruction 
 
 ---
 
-## 🛠️ Day 2: ABI & Basic Verification Flow
+## Day 2: ABI & Basic Verification Flow
 
 ### Application Binary Interface (ABI) Calling Conventions
 The ABI defines how registers are allocated across callers and callees:
@@ -158,7 +158,7 @@ Linking C application code with custom assembly routines (`1to9_custom.c` + `loa
 
 ---
 
-## 💡 Day 3: Digital Logic with TL-Verilog & Makerchip
+## Day 3: Digital Logic with TL-Verilog & Makerchip
 
 ### Combinational Calculator
 A 4-operation combinational ALU calculator built in TL-Verilog:
@@ -178,7 +178,7 @@ Implementing condition-based transaction validity (`?$valid`):
 
 ---
 
-## ⚙️ Day 4: Basic RISC-V CPU Microarchitecture
+## Day 4: Basic RISC-V CPU Microarchitecture
 
 ### Instruction Fetch (IF)
 Program Counter logic and Instruction Memory interface:
@@ -204,7 +204,7 @@ Arithmetic Logic Unit and Branch Target calculation:
 
 ---
 
-## 🏎️ Day 5: Pipelined RISC-V Core & Hazard Resolution
+## Day 5: Pipelined RISC-V Core & Hazard Resolution
 
 Implemented in [`Day3_5/risc-v_solutions.tlv`](Day3_5/risc-v_solutions.tlv):
 
@@ -219,24 +219,4 @@ Data Memory (DMem) read/write interface for `LW` and `SW`:
 ### Final Verification Result
 All instructions and the test program (summation of integers 1 to 9 = 45 / `0x2d` in register `x10`) pass successfully:
 ![Final Simulation Verification](Images/Final.png)
-
----
-
-## 🔗 Makerchip Starter Sandboxes & Tools
-- [Makerchip IDE](https://makerchip.com)
-- [Calculator Starter Shell](https://myth.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2Fstevehoover%2FRISC-V_MYTH_Workshop%2Fmaster%2Fcalculator_shell.tlv)
-- [RISC-V CPU Starter Shell](https://myth.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2Fstevehoover%2FRISC-V_MYTH_Workshop%2Fmaster%2Frisc-v_shell.tlv)
-- [Interactive Reference Solutions](https://myth.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2Fstevehoover%2FRISC-V_MYTH_Workshop%2Fmaster%2Freference_solutions.tlv)
-
----
-
-## 👨‍💻 Author
-- **Yashvir Singh** - [GitHub Profile](https://github.com/yashvirsingh09)
-
----
-
-## 🤝 Acknowledgements
-- **Kunal Ghosh**, Co-founder, VLSI System Design (VSD) Corp. Pvt. Ltd.
-- **Steve Hoover**, Founder & CEO, Redwood EDA.
-- **Shivam Potdar**, CPU Performance Engineer, Workshop Contributor.
 
