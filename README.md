@@ -4,7 +4,7 @@
 [![Tools - GCC, Spike, Makerchip](https://img.shields.io/badge/Tools-GCC%20%7C%20Spike%20%7C%20Makerchip-navy)](https://makerchip.com)
 [![Languages - C, TL-Verilog](https://img.shields.io/badge/Languages-C%20%7C%20TL--Verilog-crimson)](https://tl-x.org)
 
-This repository contains the complete documentation, lab code, testbenches, and hardware models for the **"Microprocessor for You in Thirty Hours" (MYTH)** Workshop, offered by **VLSI System Design (VSD)** and **Redwood EDA**.
+This repository contains the complete documentation, lab code, testbenches, simulation waveforms, and hardware models for the **"Microprocessor for You in Thirty Hours" (MYTH)** Workshop, offered by **VLSI System Design (VSD)** and **Redwood EDA**.
 
 ---
 
@@ -91,6 +91,7 @@ riscv-myth-workshop/
 │   ├── calculator_solutions.tlv           # Complete calculator reference implementation
 │   └── risc-v_solutions.tlv               # Complete 5-Stage Pipelined RV32I Processor Core
 │
+├── Images/                                # Verification outputs, waveforms, and terminal screenshots
 ├── calculator_shell.tlv                   # Starter shell for calculator labs
 ├── risc-v_shell.tlv                       # Starter shell for RISC-V labs
 ├── reference_solutions.tlv                # Master reference solution file
@@ -107,59 +108,117 @@ Compile a standard C program (`sum1ton.c`) using both native GCC and the `riscv6
 
 ```bash
 # Compile and run natively
-gcc sum1ton.c
-./a.out
+gcc sum1ton.c -o sum1ton
+./sum1ton
 
 # Cross-compile for RISC-V target with O1 optimization
 riscv64-unknown-elf-gcc -O1 -mabi=lp64 -march=rv64i -o sum1ton_O1.o sum1ton.c
 
-# Disassemble to inspect RISC-V assembly instructions
-riscv64-unknown-elf-objdump -d sum1ton_O1.o | less
-
-# Simulate using the Spike RISC-V ISA simulator
-spike pk sum1ton_O1.o
+# Disassemble with objdump
+riscv64-unknown-elf-objdump -d sum1ton_O1.o > sum1ton_O1_d.txt
 ```
+
+Inspection of the `main` section in the disassembled output confirms instruction structure:
+
+![Objdump Disassembly](Images/disassemble.png)
+
+### Spike Simulation & Register Debugging
+```bash
+# Execute using Spike with proxy kernel (pk)
+spike pk sum1ton_O1.o
+
+# Launch Spike in interactive debug mode
+spike -d pk sum1ton_O1.o
+```
+
+Inspection of register contents (`a0`, `a1`, `a2`) before and after instruction execution:
+
+![Spike Debugger](Images/spike_debug.png)
 
 ---
 
 ## 🛠️ Day 2: ABI & Basic Verification Flow
 
-### Application Binary Interface (ABI)
-The ABI establishes the protocol by which application programs interact directly with hardware registers.
-- **System Call Calling Conventions:** In RISC-V, integer arguments are passed in registers `a0` - `a7` (`x10` - `x17`), while system call numbers are specified in `a7`.
-- **Picorv32 Verification:** In `Day2/Lab4/`, run the `rv32im.sh` script to compile C code, link custom startup assembly (`load.S`, `start.S`), and run the full verilated testbench against the open-source **Picorv32** core.
+### Application Binary Interface (ABI) Calling Conventions
+The ABI defines how registers are allocated across callers and callees:
 
-```bash
-cd Day2/Lab4
-bash rv32im.sh
-```
+![ABI Calling Conventions](Images/calling_convetion.png)
+
+### Lab 3: ABI Function Calls via Custom Assembly
+Linking C application code with custom assembly routines (`1to9_custom.c` + `load.S`):
+
+* **Main Function:**
+  ![Main Function](Images/main_ABI.png)
+
+* **Custom Assembly Routine (`load.S`):**
+  ![Assembly Routine](Images/load_ABI.png)
+
+* **Execution Output:**
+  ![Execution Output](Images/compile_ABI.png)
 
 ---
 
 ## 💡 Day 3: Digital Logic with TL-Verilog & Makerchip
-- **TL-Verilog Benefits:** Eliminates tedious boilerplate, clock and reset wiring, while enabling easy timing retiming with `@` pipeline stages.
-- **Makerchip Cloud IDE:** Supports live visualization (VIZ) of digital logic state, waveforms, and automatic block diagrams.
-- **Calculator Lab:** Built from a simple 2-input combinational ALU up to a sequential calculator with a 1-cycle memory loop and memory register recall (`Day3_5/calculator_solutions.tlv`).
+
+### Combinational Calculator
+A 4-operation combinational ALU calculator built in TL-Verilog:
+![Combinational Calculator](Images/Combinational_Calculator.png)
+
+### Sequential Calculator
+Sequential accumulator retaining previous output:
+![Sequential Calculator](Images/Sequential_Calculator.png)
+
+### 2-Cycle Pipelined Calculator
+Pipeline timing implementation using `@1` and `@2` stages:
+![Cycle Calculator](Images/Cycle_Calculator.png)
+
+### Cycle Calculator with Validity
+Implementing condition-based transaction validity (`?$valid`):
+![Cycle Calculator with Validity](Images/Cycle_Calculator_validity.png)
 
 ---
 
-## ⚙️ Day 4 & 5: Complete Pipelined RISC-V Core
+## ⚙️ Day 4: Basic RISC-V CPU Microarchitecture
+
+### Instruction Fetch (IF)
+Program Counter logic and Instruction Memory interface:
+![Instruction Fetch](Images/Fetch.png)
+
+### Instruction Decode (ID)
+Decoding R, I, S, B, U, J type instructions and immediate generation:
+![Instruction Decode](Images/Decode.png)
+
+### Register File Read & Write
+Dual-read, single-write 32-entry register file:
+* **Register File Read:**
+  ![Register File Read](Images/Register_File_Read.png)
+* **Register File Write:**
+  ![Register File Write](Images/Register_File_Write.png)
+
+### ALU & Branch Control
+Arithmetic Logic Unit and Branch Target calculation:
+* **ALU Execution:**
+  ![ALU Execution](Images/ALU.png)
+* **Branch Control Logic:**
+  ![Control Logic](Images/Control_Logic.png)
+
+---
+
+## 🏎️ Day 5: Pipelined RISC-V Core & Hazard Resolution
 
 Implemented in [`Day3_5/risc-v_solutions.tlv`](Day3_5/risc-v_solutions.tlv):
-- **Stage 1 (Fetch):** Program counter generation and instruction memory lookup.
-- **Stage 2 (Decode):** Immediate value generation for `R`, `I`, `S`, `B`, `U`, and `J` formats.
-- **Stage 3 (Execute):** ALU operations, branch condition evaluation, and branch target calculation.
-- **Stage 4 (Memory):** Data Memory (DMem) read/write for `LW` and `SW`.
-- **Stage 5 (Write-Back):** Register file write logic with 2-source forwarding logic to prevent RAW read-after-write pipeline hazards.
 
-```mermaid
-flowchart LR
-    IF["1. Fetch (IF)\nPC & IMem"] --> ID["2. Decode (ID)\nDecoder & RegFile Read"]
-    ID --> EX["3. Execute (EX)\nALU & Branch Eval"]
-    EX --> MEM["4. Memory (MEM)\nDMem Load / Store"]
-    MEM --> WB["5. Write-Back (WB)\nRegFile Write"]
-    WB -.->|"Forwarding"| EX
-```
+### Pipelining the CPU
+5-stage pipeline (`@1` Fetch, `@2` Decode, `@3` Execute, `@4` Memory, `@5` Write-Back) with 2-source bypass data forwarding:
+![Pipelining CPU](Images/Pipelining_CPU.png)
+
+### Load and Store Memory Interface
+Data Memory (DMem) read/write interface for `LW` and `SW`:
+![Load and Store](Images/Load_Store.png)
+
+### Final Verification Result
+All instructions and the test program (summation of integers 1 to 9 = 45 / `0x2d` in register `x10`) pass successfully:
+![Final Simulation Verification](Images/Final.png)
 
 ---
 
