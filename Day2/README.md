@@ -216,3 +216,9 @@ The script performs:
 4. Hex conversion via `hex8tohex32.py`.
 5. Verilog simulation of `testbench.v` with `picorv32.v`.
 6. Output verification confirming computation of `45`.
+
+---
+
+## 👨‍💻 Author
+- **Yashvir Singh** - [GitHub Profile](https://github.com/yashvirsingh09)
+

@@ -230,7 +230,13 @@ All instructions and the test program (summation of integers 1 to 9 = 45 / `0x2d
 
 ---
 
+## 👨‍💻 Author
+- **Yashvir Singh** - [GitHub Profile](https://github.com/yashvirsingh09)
+
+---
+
 ## 🤝 Acknowledgements
 - **Kunal Ghosh**, Co-founder, VLSI System Design (VSD) Corp. Pvt. Ltd.
 - **Steve Hoover**, Founder & CEO, Redwood EDA.
 - **Shivam Potdar**, CPU Performance Engineer, Workshop Contributor.
+

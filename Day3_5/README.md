@@ -128,3 +128,9 @@ The core executes an assembly testbench program calculating the summation of int
 ```
 
 ![Final Simulation Verification](../Images/Final.png)
+
+---
+
+## 👨‍💻 Author
+- **Yashvir Singh** - [GitHub Profile](https://github.com/yashvirsingh09)
+
