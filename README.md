@@ -1,4 +1,4 @@
-# RISC-V MYTH Workshop (Microprocessor for You in Thirty Hours)
+# RISC-V MYTH Workshop
 
 [![OS - Linux](https://img.shields.io/badge/OS-Linux-orange)](https://www.linux.org/)
 [![Tools - GCC, Spike, Makerchip](https://img.shields.io/badge/Tools-GCC%20%7C%20Spike%20%7C%20Makerchip-navy)](https://makerchip.com)
@@ -17,8 +17,6 @@ This repository contains the complete documentation, lab code, testbenches, simu
 6. [Day 3: Digital Logic with TL-Verilog & Makerchip](#-day-3-digital-logic-with-tl-verilog--makerchip)
 7. [Day 4: RISC-V CPU Microarchitecture & Basic Core](#-day-4-risc-v-cpu-microarchitecture--basic-core)
 8. [Day 5: Pipelined RISC-V Core & Hazard Resolution](#-day-5-pipelined-risc-v-core--hazard-resolution)
-9. [Makerchip Starter Sandboxes & Tools](#-makerchip-starter-sandboxes--tools)
-10. [Acknowledgements](#-acknowledgements)
 
 ---
 
